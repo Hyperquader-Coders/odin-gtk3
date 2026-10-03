@@ -1,0 +1,80 @@
+# Generated with runic (docs/DECISIONS.md). Adapted from odin-gtk (MIT, docs/LICENSE-odin-gtk.md).
+version: 0
+platforms:
+  - Linux x86_64
+from:
+  language: c
+  shared.linux: 'libatk-1.0.so'
+  headers: ../build/sys/usr/include/atk-1.0/atk/atk.h
+  includedirs:
+    - ../stdinc/
+    - ../build/sys/usr/include/atk-1.0/
+    - ../build/sys/usr/include/glib-2.0/
+    - ../build/sys/usr/lib/x86_64-linux-gnu/glib-2.0/include/
+  defines:
+    GLIB_DISABLE_DEPRECATION_WARNINGS: 1
+  load_all_includes: true
+  extern:
+    - "../stdinc/*"
+    - "../stdinc/sys/*"
+    - "../build/sys/usr/include/glib-2.0/glib/*"
+    - "../build/sys/usr/include/glib-2.0/glib/deprecated/*"
+    - "../build/sys/usr/include/glib-2.0/glib.h"
+    - "../build/sys/usr/include/glib-2.0/gobject/*"
+    - "../build/sys/usr/include/glib-2.0/glib-object.h"
+    - "../build/sys/usr/include/glib-2.0/gio/*"
+    - "../build/sys/usr/include/glib-2.0/gio.h"
+    - "../build/sys/usr/lib/x86_64-linux-gnu/glib-2.0/include/*"
+  ignore:
+    types:
+      - '*autoptr*'
+      - va_list
+    constants:
+      - 'ATK_DEPRECATED*'
+      - 'ATK_AVAILABLE*'
+      - 'ATK_VERSION_MIN*'
+      - 'ATK_VERSION_MAX*'
+      - '_ATK*'
+    functions:
+      - '*autoptr*'
+      - '*auto_cleanup*'
+to:
+  language: odin
+  package: atk
+  out: atk.odin
+  no_build_tag: true
+  detect:
+    parameters: declared
+    arrays:
+      relation_new: [targets]
+      state_set_add_states: [types]
+      state_set_contains_states: [types]
+      text_free_ranges: [ranges]
+  trim_prefix:
+    types:
+      - g
+      - G
+      - Atk
+    functions:
+      - atk_
+      - glib_
+    variables:
+      - atk_
+    constants:
+      - ATK_
+    enum_type_name: true
+  extern:
+    sources:
+      "../stdinc/stdarg.h": "core:c/libc"
+      "../stdinc/stdio.h": "core:c/libc"
+      "../stdinc/pthread.h": "core:c/libc"
+      "../stdinc/sys/types.h": "core:sys/linux"
+      "../build/sys/usr/include/glib-2.0/glib/*": "glib glib:glib"
+      "../build/sys/usr/include/glib-2.0/glib.h": "glib glib:glib"
+      "../build/sys/usr/include/glib-2.0/glib/deprecated/*": "glib glib:glib"
+      "../build/sys/usr/lib/x86_64-linux-gnu/glib-2.0/include/*": "glib glib:glib"
+      "../build/sys/usr/include/glib-2.0/gobject/*": "gobj glib:gobject"
+      "../build/sys/usr/include/glib-2.0/glib-object.h": "gobj glib:gobject"
+      "../build/sys/usr/include/glib-2.0/gio/*": "gio glib:gio"
+      "../build/sys/usr/include/glib-2.0/gio.h": "gio glib:gio"
+    trim_prefix: true
