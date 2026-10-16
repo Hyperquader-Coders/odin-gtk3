@@ -1,0 +1,196 @@
+# Generated with runic (docs/DECISIONS.md). Adapted from odin-gtk (MIT, docs/LICENSE-odin-gtk.md).
+version: 0
+platforms:
+  - Linux x86_64
+from:
+  language: c
+  shared.linux: 'libgtk-3.so'
+  headers: ../build/sys/usr/include/gtk-3.0/gtk/gtk.h
+  includedirs:
+    - ../stdinc/
+    - ../build/sys/usr/include/gtk-3.0/
+    - ../build/sys/usr/include/atk-1.0/
+    - ../build/sys/usr/include/pango-1.0/
+    - ../build/sys/usr/include/harfbuzz/
+    - ../build/sys/usr/include/cairo/
+    - ../build/sys/usr/include/gdk-pixbuf-2.0/
+    - ../build/sys/usr/include/glib-2.0/
+    - ../build/sys/usr/lib/x86_64-linux-gnu/glib-2.0/include/
+  defines:
+    GLIB_DISABLE_DEPRECATION_WARNINGS: 1
+  load_all_includes: true
+  extern:
+    - "../stdinc/*"
+    - "../stdinc/sys/*"
+    - "../build/sys/usr/include/glib-2.0/glib/*"
+    - "../build/sys/usr/include/glib-2.0/glib/deprecated/*"
+    - "../build/sys/usr/include/glib-2.0/glib.h"
+    - "../build/sys/usr/include/glib-2.0/gobject/*"
+    - "../build/sys/usr/include/glib-2.0/glib-object.h"
+    - "../build/sys/usr/include/glib-2.0/gio/*"
+    - "../build/sys/usr/include/glib-2.0/gio.h"
+    - "../build/sys/usr/lib/x86_64-linux-gnu/glib-2.0/include/*"
+    - "../build/sys/usr/include/harfbuzz/*"
+    - "../build/sys/usr/include/cairo/*"
+    - "../build/sys/usr/include/pango-1.0/pango/*"
+    - "../build/sys/usr/include/gdk-pixbuf-2.0/gdk-pixbuf/*"
+    - "../build/sys/usr/include/atk-1.0/atk/*"
+  ignore:
+    types:
+      - '*autoptr*'
+      - va_list
+    constants:
+      - 'GTK_DEPRECATED*'
+      - 'GDK_DEPRECATED*'
+      - 'GTK_AVAILABLE*'
+      - 'GDK_AVAILABLE*'
+      - 'GDK_VERSION_M*'
+      - 'GTK_VERSION_M*'
+      - '_GTK*'
+      - '_GDK*'
+      - 'GMODULE*'
+      - 'G_MODULE*'
+      - '_GMODULE*'
+      - 'GDK_THREADS_DEPRECATED'
+      - 'GDK_*_VERSION'
+      - 'GDK_VERSION_*'
+      - 'gtk_*_version'
+      - 'gtk_*_age'
+    functions:
+      - '*autoptr*'
+      - '*auto_cleanup*'
+      - 'g_module_*'
+  overwrite:
+    # Bit-field structs runic cannot lay out; byte-for-byte the size and alignment of the C
+    # structs on x86_64 (docs/PATCHED.md). Use the accessor procedures.
+    types:
+      _GtkRcStyle: '#UInt64 #Attr Arr 48 #AttrEnd'
+      _GtkContainerClass: '#UInt64 #Attr Arr 122 #AttrEnd'
+      _GtkMenuShellClass: '#UInt64 #Attr Arr 136 #AttrEnd'
+      _GtkMenuItemClass: '#UInt64 #Attr Arr 139 #AttrEnd'
+      _GtkTableChild: '#UInt64 #Attr Arr 3 #AttrEnd'
+      _GtkTableRowCol: '#UInt32 #Attr Arr 2 #AttrEnd'
+      # Placeholders, replaced by the hand-written declarations in hand.odin.
+      _GdkEventKey: '#UInt8 #Attr Arr 1 #AttrEnd'
+      _GdkEventScroll: '#UInt8 #Attr Arr 1 #AttrEnd'
+      _GtkTextAppearance: '#UInt8 #Attr Arr 1 #AttrEnd'
+      _GtkTextAttributes: '#UInt8 #Attr Arr 1 #AttrEnd'
+      _GtkBindingSet: '#UInt8 #Attr Arr 1 #AttrEnd'
+      _GtkBindingEntry: '#UInt8 #Attr Arr 1 #AttrEnd'
+to:
+  language: odin
+  package: gtk3
+  out: gtk3.odin
+  no_build_tag: true
+  detect:
+    parameters: declared
+    arrays:
+      about_dialog_set_artists: [artists]
+      about_dialog_set_authors: [authors]
+      about_dialog_set_documenters: [documenters]
+      accelerator_parse_with_keycode: [accelerator_codes]
+      action_group_add_actions: [entries]
+      action_group_add_actions_full: [entries]
+      action_group_add_radio_actions: [entries]
+      action_group_add_radio_actions_full: [entries]
+      action_group_add_toggle_actions: [entries]
+      action_group_add_toggle_actions_full: [entries]
+      application_set_accels_for_action: [accels]
+      builder_add_objects_from_file: [object_ids]
+      builder_add_objects_from_resource: [object_ids]
+      builder_add_objects_from_string: [object_ids]
+      clipboard_set_can_store: [targets]
+      clipboard_set_with_data: [targets]
+      clipboard_set_with_owner: [targets]
+      clipboard_wait_for_targets: [targets]
+      color_chooser_add_palette: [colors]
+      color_selection_palette_from_string: [colors]
+      color_selection_palette_to_string: [colors]
+      container_class_install_child_properties: [pspecs]
+      distribute_natural_allocation: [sizes]
+      drag_dest_set: [targets]
+      drag_source_set: [targets]
+      file_chooser_add_choice: [options, option_labels]
+      gdk_device_free_history: [events]
+      gdk_device_get_axis: [axes]
+      gdk_device_get_axis_value: [axes]
+      gdk_device_get_history: [events]
+      gdk_device_get_state: [axes]
+      gdk_display_store_clipboard: [targets]
+      gdk_keymap_get_entries_for_keycode: [keys, keyvals]
+      gdk_keymap_get_entries_for_keyval: [keys]
+      gdk_pango_layout_get_clip_region: [index_ranges]
+      gdk_pango_layout_line_get_clip_region: [index_ranges]
+      gdk_query_depths: [depths]
+      gdk_query_visual_types: [visual_types]
+      gesture_stylus_get_axes: [axes, values]
+      icon_info_get_attach_points: [points]
+      icon_set_get_sizes: [sizes]
+      icon_theme_choose_icon: [icon_names]
+      icon_theme_choose_icon_for_scale: [icon_names]
+      icon_theme_get_search_path: [path]
+      icon_theme_set_search_path: [path]
+      icon_view_enable_model_drag_dest: [targets]
+      icon_view_enable_model_drag_source: [targets]
+      init_with_args: [entries]
+      list_store_insert_with_valuesv: [columns, values]
+      list_store_newv: [types]
+      list_store_set_column_types: [types]
+      list_store_set_valuesv: [columns, values]
+      pad_controller_set_action_entries: [entries]
+      print_settings_set_page_ranges: [page_ranges]
+      rc_set_default_files: [filenames]
+      scale_button_new: [icons]
+      scale_button_set_icons: [icons]
+      selection_add_targets: [targets]
+      selection_data_get_targets: [targets]
+      selection_data_set_uris: [uris]
+      stock_add: [items]
+      stock_add_static: [items]
+      target_list_add_table: [targets]
+      target_list_new: [targets]
+      target_table_free: [targets]
+      targets_include_image: [targets]
+      targets_include_rich_text: [targets]
+      targets_include_text: [targets]
+      targets_include_uri: [targets]
+      tree_model_filter_set_modify_func: [types]
+      tree_path_new_from_indicesv: [indices]
+      tree_store_insert_with_valuesv: [columns, values]
+      tree_store_newv: [types]
+      tree_store_set_column_types: [types]
+      tree_store_set_valuesv: [columns, values]
+      tree_view_enable_model_drag_dest: [targets]
+      tree_view_enable_model_drag_source: [targets]
+  trim_prefix:
+    types:
+      - Gtk
+      - g
+      - G
+    functions:
+      - gtk_
+      - glib_
+    variables:
+      - gtk_
+    constants:
+      - GTK_
+    enum_type_name: true
+  extern:
+    sources:
+      "../stdinc/stdarg.h": "core:c/libc"
+      "../stdinc/stdio.h": "core:c/libc"
+      "../stdinc/pthread.h": "core:c/libc"
+      "../stdinc/sys/types.h": "core:sys/linux"
+      "../build/sys/usr/include/glib-2.0/glib/*": "glib glib:glib"
+      "../build/sys/usr/include/glib-2.0/glib.h": "glib glib:glib"
+      "../build/sys/usr/include/glib-2.0/glib/deprecated/*": "glib glib:glib"
+      "../build/sys/usr/lib/x86_64-linux-gnu/glib-2.0/include/*": "glib glib:glib"
+      "../build/sys/usr/include/glib-2.0/gobject/*": "gobj glib:gobject"
+      "../build/sys/usr/include/glib-2.0/glib-object.h": "gobj glib:gobject"
+      "../build/sys/usr/include/glib-2.0/gio/*": "gio glib:gio"
+      "../build/sys/usr/include/glib-2.0/gio.h": "gio glib:gio"
+      "../build/sys/usr/include/cairo/*": "cairo cairo:cairo"
+      "../build/sys/usr/include/pango-1.0/pango/*": "pango pango:pango"
+      "../build/sys/usr/include/gdk-pixbuf-2.0/gdk-pixbuf/*": "pixbuf pixbuf:gdkpixbuf"
+      "../build/sys/usr/include/atk-1.0/atk/*": "atk gtk3:atk"
+    trim_prefix: true
